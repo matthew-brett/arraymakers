@@ -1,4 +1,7 @@
 # From http://codespeak.net/pipermail/cython-dev/2008-April/000691.html
+# http://docs.python.org/c-api/cobject.html
+# http://docs.python.org/extending/extending.html#using-cobjects
+
 cdef extern from "stdlib.h":
     ctypedef unsigned long size_t
     void *malloc(size_t size)
