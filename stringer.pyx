@@ -12,17 +12,23 @@ rather than make an allocator specific to ints. If people like this
 idea, I could add such a function to Sage. Maybe it would even be  
 worthwhile adding it to Cython (in one of the included header files).
 '''
+cdef extern from "stdlib.h":
+    void *memcpy(void *str1, void *str2, size_t n)
 
-from python_string cimport PyString_FromStringAndSize, PyString_AS_STRING
+from python_string cimport PyString_FromStringAndSize, \
+    PyString_AS_STRING, PyString_Size
 
-cdef inline object pyalloc_i(int size, int **i):
-    if size < 0: size = 0
-    cdef Py_ssize_t n = size * sizeof(int)
+cdef inline object pyalloc_v(Py_ssize_t n, void **pp):
     cdef object ob = PyString_FromStringAndSize(NULL, n)
-    i[0] = <int*> PyString_AS_STRING(ob)
+    pp[0] = <void*> PyString_AS_STRING(ob)
     return ob
 
-def foo(sequence):
-    cdef int size = len(sequence),
-    cdef int *buf = NULL
-    cdef object tmp = pyalloc_i(size, &buf)
+def copy_string(in_str):
+    # For testing
+    cdef:
+        void *p
+    cdef char  *s_ptr = in_str
+    cdef Py_ssize_t n = PyString_Size(in_str)
+    cdef object ob = pyalloc_v(n, &p)
+    memcpy(p, s_ptr, n)
+    return ob

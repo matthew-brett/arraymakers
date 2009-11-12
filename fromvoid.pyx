@@ -4,6 +4,7 @@
 
 cdef extern from "stdlib.h":
     ctypedef unsigned long size_t
+    void *memcpy(void *str1, void *str2, size_t n)
     void *malloc(size_t size)
     void free(void *ptr)
 
