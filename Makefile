@@ -1,6 +1,15 @@
 clean:
-	-rm -rf build *.so
+	-rm -rf build *.so *.pyc *.c
 
-all: clean
+am1:
+	-rm -rf build arraymaker1.so
 	python setup.py build_ext --inplace
 
+am2:
+	-rm -rf build arraymaker2.so
+	python setup2.py build_ext --inplace
+
+test:
+	nosetests -s test*
+
+all: am1 am2
