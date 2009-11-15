@@ -16,7 +16,7 @@ import arraymaker2
 def py_make_1d_array(n, data, dt):
     return np.ndarray(shape=(n,), dtype=dt, buffer=data)
 
-def test_arraymaker1():
+def test_arraymaker2():
     n = 10
     for dt_str in ('i2', 'u4', 'f8'):
         dt = np.dtype(dt_str)
