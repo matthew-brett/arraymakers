@@ -27,18 +27,7 @@ cdef extern from "workaround.h":
 cnp.import_array()
 
 
-def make_1d_array(cnp.npy_intp size, object data, cnp.dtype dt):
-    cdef char *ptr
-    ptr = data
-    Py_INCREF(<object> dt)
-    #Py_INCREF(<object> data)
-    narr = PyArray_NewFromDescr(&PyArray_Type,
-                                 dt,
-                                 1,
-                                 &size,
-                                 NULL,
-                                 <void *>ptr,
-                                 0,
-                                 <object>NULL)
-    #PyArray_Set_BASE(narr, data)
-    return narr
+def make_local_1d_array(cnp.npy_intp size, object data, cnp.dtype dt):
+    cdef object _kwargs = {'shape':  (size,),  'dtype':dt,  'buffer':data}
+    cdef object _ndarray = np.ndarray
+    arr = _ndarray(**_kwargs)
